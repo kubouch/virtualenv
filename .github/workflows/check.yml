@@ -58,8 +58,15 @@ jobs:
             ${{ runner.os == 'Linux' && 'cargo install --path=.' || true }} && \
             # ${{ runner.os == 'Linux' && 'sudo cp nushell/nu /usr/bin' || true }} && \
             # ${{ runner.os == 'Linux' && 'sudo cp target/release/nu /usr/bin' || true }} && \
-            ${{ runner.os == 'Windows' && 'choco install nushell' || true }} && \
-            ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh nushell' || true }} && \
+            # ${{ runner.os == 'Windows' && 'choco install nushell' || true }} && \
+            ${{ runner.os == 'Windows' && 'git clone https://github.com/nushell/engine-q.git' || true }} && \
+            ${{ runner.os == 'Windows' && 'cd engine-q' || true }} && \
+            ${{ runner.os == 'Windows' && 'cargo install --path=.' || true }} && \
+            # ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh nushell' || true }} && \
+            ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh' || true }} && \
+            ${{ runner.os == 'macOS' && 'git clone https://github.com/nushell/engine-q.git' || true }} && \
+            ${{ runner.os == 'macOS' && 'cd engine-q' || true }} && \
+            ${{ runner.os == 'macOS' && 'cargo install --path=.' || true }} && \
             exit 0 || true;
           done
           exit 1
