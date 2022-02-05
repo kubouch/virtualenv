@@ -55,9 +55,9 @@ jobs:
             # ${{ runner.os == 'Linux' && 'tar -zxf nushell.tar.gz --one-top-level=nushell --strip-components=2' || true }} && \
             ${{ runner.os == 'Linux' && 'git clone https://github.com/nushell/engine-q.git' || true }} && \
             ${{ runner.os == 'Linux' && 'cd engine-q' || true }} && \
-            ${{ runner.os == 'Linux' && 'cargo build --release' || true }} && \
+            ${{ runner.os == 'Linux' && 'cargo install --path=.' || true }} && \
             # ${{ runner.os == 'Linux' && 'sudo cp nushell/nu /usr/bin' || true }} && \
-            ${{ runner.os == 'Linux' && 'sudo cp target/release/nu /usr/bin' || true }} && \
+            # ${{ runner.os == 'Linux' && 'sudo cp target/release/nu /usr/bin' || true }} && \
             ${{ runner.os == 'Windows' && 'choco install nushell' || true }} && \
             ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh nushell' || true }} && \
             exit 0 || true;
