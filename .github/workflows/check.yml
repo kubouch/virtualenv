@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         rust:
-          - beta
+          - nightly
         py:
           - "3.10"
           - "3.9"
