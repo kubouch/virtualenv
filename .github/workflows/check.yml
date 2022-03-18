@@ -23,6 +23,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        rust:
+          - nightly
         py:
           - "3.10"
           - "3.9"
@@ -47,13 +49,24 @@ jobs:
           for i in 1 2 3; do
             echo "try $i" && \
             ${{ runner.os == 'Linux' && 'sudo apt-get update -y && sudo apt-get install snapd fish csh -y' || true }} && \
-            ${{ runner.os == 'Linux' && 'sudo apt-get install curl wget -y' || true }} && \
-            ${{ runner.os == 'Linux' && 'nushell_url=$(curl -s https://api.github.com/repos/nushell/nushell/releases/latest | grep "browser_" | cut -d\" -f4 | grep .tar.gz)' || true }} && \
-            ${{ runner.os == 'Linux' && 'wget -O nushell.tar.gz $nushell_url' || true }} && \
-            ${{ runner.os == 'Linux' && 'tar -zxf nushell.tar.gz --one-top-level=nushell --strip-components=2' || true }} && \
-            ${{ runner.os == 'Linux' && 'sudo cp nushell/nu /usr/bin' || true }} && \
-            ${{ runner.os == 'Windows' && 'choco install nushell' || true }} && \
-            ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh nushell' || true }} && \
+            ${{ runner.os == 'Linux' && 'sudo apt-get install curl wget git -y' || true }} && \
+            # ${{ runner.os == 'Linux' && 'nushell_url=$(curl -s https://api.github.com/repos/nushell/nushell/releases/latest | grep "browser_" | cut -d\" -f4 | grep .tar.gz)' || true }} && \
+            # ${{ runner.os == 'Linux' && 'wget -O nushell.tar.gz $nushell_url' || true }} && \
+            # ${{ runner.os == 'Linux' && 'tar -zxf nushell.tar.gz --one-top-level=nushell --strip-components=2' || true }} && \
+            ${{ runner.os == 'Linux' && 'git clone https://github.com/nushell/nushell.git' || true }} && \
+            ${{ runner.os == 'Linux' && 'cd nushell' || true }} && \
+            ${{ runner.os == 'Linux' && 'cargo install --path=.' || true }} && \
+            # ${{ runner.os == 'Linux' && 'sudo cp nushell/nu /usr/bin' || true }} && \
+            # ${{ runner.os == 'Linux' && 'sudo cp target/release/nu /usr/bin' || true }} && \
+            # ${{ runner.os == 'Windows' && 'choco install nushell' || true }} && \
+            ${{ runner.os == 'Windows' && 'git clone https://github.com/nushell/nushell.git' || true }} && \
+            ${{ runner.os == 'Windows' && 'cd nushell' || true }} && \
+            ${{ runner.os == 'Windows' && 'cargo install --path=.' || true }} && \
+            # ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh nushell' || true }} && \
+            ${{ runner.os == 'macOS' && 'brew update && brew install fish tcsh' || true }} && \
+            ${{ runner.os == 'macOS' && 'git clone https://github.com/nushell/nushell.git' || true }} && \
+            ${{ runner.os == 'macOS' && 'cd nushell' || true }} && \
+            ${{ runner.os == 'macOS' && 'cargo install --path=.' || true }} && \
             exit 0 || true;
           done
           exit 1
