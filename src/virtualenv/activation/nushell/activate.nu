@@ -1,20 +1,20 @@
 # Setting all environment variables for the venv
-let path-name = (if ((sys).host.name == "Windows") { "Path" } { "PATH" })
-let virtual-env = "__VIRTUAL_ENV__"
+let path_name = (if ((sys).host.name == "Windows") { "Path" } { "PATH" })
+let virtual_env = "__VIRTUAL_ENV__"
 let bin = "__BIN_NAME__"
-let path-sep = "__PATH_SEP__"
+let path_sep = "__PATH_SEP__"
 
-let old-path = ($nu.path | str collect ($path-sep))
+let old_path = ($nu.path | str collect ($path_sep))
 
-let venv-path = ([$virtual-env $bin] | path join)
-let new-path = ($nu.path | prepend $venv-path | str collect ($path-sep))
+let venv_path = ([$virtual_env $bin] | path join)
+let new_path = ($nu.path | prepend $venv_path | str collect ($path_sep))
 
 # environment variables that will be batched loaded to the virtual env
-let new-env = ([
+let new_env = ([
     [name, value];
-    [$path-name $new-path]
-    [_OLD_VIRTUAL_PATH $old-path]
-    [VIRTUAL_ENV $virtual-env]
+    [$path_name $new_path]
+    [_OLD_VIRTUAL_PATH $old_path]
+    [VIRTUAL_ENV $virtual_env]
 ])
 
 load-env $new-env
@@ -23,7 +23,7 @@ load-env $new-env
 let virtual_prompt = (if ("__VIRTUAL_PROMPT__" != "") {
     "(__VIRTUAL_PROMPT__) "
 } {
-    (build-string '(' ($virtual-env | path basename) ') ')
+    (build-string '(' ($virtual_env | path basename) ') ')
 }
 )
 
